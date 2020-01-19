@@ -149,7 +149,7 @@ Under **Address Editor** note IP's address
 
 3) PYNQ board and Host program
 ------------------------------
-Under **Project Manager**, click on **IP Catalog**. Right click inside the newly open 'IP Catalog' tab and select **Add Repository**. In the open window navigate to your Vivado HLS project folder and select **<pass_to_vivado_hls_folder>\solution1\impl\ip**
+Using SMB or SCP, copy **design_1_wrapper.bit** from **vivado_project_path/mul_test.runs/impl1** and copy **design_1.hwh** from **vivado_project_path/mul_test.srcs/sources_1/bd/design_1/hw_handoff** to your PYNQ board at **/home/xilinx/jupyter_notebooks/mul_test**.
 
 .. code-block:: python
 
