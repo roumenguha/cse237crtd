@@ -19,6 +19,7 @@ Please follow this `link <https://pynq.readthedocs.io/en/latest/getting_started/
    
    self
    project1
+	 project5
    project2
    project3
    project4
