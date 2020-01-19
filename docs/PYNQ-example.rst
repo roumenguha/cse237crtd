@@ -134,7 +134,7 @@ In **Sources**, right click on **design_1** and select **Create HDL Wrapper**
 
 Under **Project Manager**, click on **Generate Bitstream** to build .bit and .tcl files
 
-2.5) Bitstream, tcl, and addresses
+2.5) Bitstream, hwh, and addresses
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Before closing Vivado, we need to note our IP and its ports addresses:
@@ -149,10 +149,7 @@ Under **Address Editor** note IP's address
 
 3) PYNQ board and Host program
 ------------------------------
-
-Using SMB or SCP, copy **design_1_wrapper.bit** and **design_1_wrapper.tcl** from **vivado_project_path\mul_test.runs\impl1** to your PYNQ board at **/home/xilinx/jupyter_notebooks/mul_test**.
-
-Open a new Notebook and run the following code to test your IP
+Under **Project Manager**, click on **IP Catalog**. Right click inside the newly open 'IP Catalog' tab and select **Add Repository**. In the open window navigate to your Vivado HLS project folder and select **<pass_to_vivado_hls_folder>\solution1\impl\ip**
 
 .. code-block:: python
 
