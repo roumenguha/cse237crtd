@@ -149,7 +149,7 @@ Under **Address Editor** note IP's address
 
 3) PYNQ board and Host program
 ------------------------------
-Using SMB or SCP, copy **design_1_wrapper.bit** from **vivado_project_path/mul_test.runs/impl1** and copy **design_1_wrapper.hwh** from **vivado_project_path/mul_test.srcs/sources_1/bd/design_1/hw_handoff** to your PYNQ board at **/home/xilinx/jupyter_notebooks/mul_test**.
+Using SMB or SCP, copy **design_1_wrapper.bit** from **vivado_project_path/mul_test.runs/impl1** and rename **design_1.hwh** to **design_1_wrapper.hwh** from **vivado_project_path/mul_test.srcs/sources_1/bd/design_1/hw_handoff** to your PYNQ board at **/home/xilinx/jupyter_notebooks/mul_test**. The idea is that the bit and hwh file should have the same name for the board to be programmed.
 
 .. code-block:: python
 
