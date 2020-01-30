@@ -18,14 +18,14 @@ Please follow this `link <https://pynq.readthedocs.io/en/latest/getting_started/
    :hidden:
    
    self
-   project1
-   project5
-   project2
-   project3
-   project4
-   PYNQ-example
-   axidma
-   axidma2
-   pl-ps_interrupt
-   Lab5.ipynb
+   FIR
+   CORDIC
+   DFT
+   FFT
+   PHASE_DETECTOR
+   AXI_LITE
+   AXIS1
+   AXIS2
+   INTERRUPT
+   
 
