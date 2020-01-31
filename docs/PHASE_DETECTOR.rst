@@ -1,131 +1,143 @@
-.. DFT documentation master file, created by
-   sphinx-quickstart on Fri Mar 22 22:58:41 2019.
+.. PhaseDetector documentation master file, created by
+   sphinx-quickstart on Fri Mar  8 19:12:45 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Project 3: Discrete Fourier Transform (DFT)
-===========================================
+Project: Phase Detector
+=========================================
 
-1.Introduction
+1) Introduction
 --------------
 
-The goal of this project is to design architectures that implement the Discrete Fourier Transform (DFT). DFT is a common operation in signal processing which generates a frequency domain representation of the discrete input signal. We start with the direct implementation of the DFT which is a matrix-vector multiplication. The input signal is a vector of samples and the matrix is composed of a set of basis functions corresponding to discrete cosine and sine waveforms of different frequencies. The multiplication of the input signal with these basis functions describes how well the input signal correlates with those waveforms, which is the value of the Fourier series at that frequency.
+The goal of this project is to design a simple phase detector. This is done by combining a complex FIR filter and a COordinate Rotation DIgital Computer (CORDIC). You build a complex FIR filter by hierarchically instantiating four “real” FIR filters similar to what you developed in the FIR filter project. In this project, you use CORDIC IP core from the previous project.
 
-2.Materials
+The complex FIR filter is used to correlate to a known complex signal. We use Golay codes which have some great properties related to orthogonality and auto-correlation. This is not important to this lab, but is some really amazing math. I hope you look into it.
+
+In the end, you will combine all of these modules into a phase detector. This is a common block used in a digital communications receiver. The goal is to do simple synchronization and discover the phase of the signal. The output of the CORDIC (r, theta) gives you these results. It is a simple phase detector, but should provide you with a basic understanding of the problem, and you should come away with knowledge on how to develop two new important hardware blocks (CORDIC and a complex FIR filter).
+
+We provide a Simulink file that models a transmitter, channel, and receiver. You are building an equivalent receiver in HLS in this project. The Simulink file is provided for your information only. You do not have to edit or do anything with this file though it could be useful for understanding the overall application better.
+
+2) Materials
 -----------
 
-The files neccessary for this project can be got from `here <https://github.com/KastnerRG/pp4fpgas/blob/master/labs/project3.zip?raw=true>`_ 
+You can download the project files here:
 
-You can find the following files in the zip file. These are divided into five folders, dft_8_precomputed, dft_32_precomputed, dft_256_precomputed, dft_1024_precomputed, and Demo. Each of the first four folders has its own testbench, out.gold.dat file, and coefficients.h file.
+* `Phase Detector.zip <https://github.com/KastnerRG/pp4fpgas/blob/master/labs/phase_detector.zip?raw=true>`_
+ 
+The provided zip file has a number of subfolders and files corresponding to the different parts of the phase detector. This contains the documents necessary to build the project. You will start from HLS folder to design your phase detector using Vivado HLS. Use the provided script.tcl to create your project.
 
-Each dft_xx_precomputed folder contains following files:
+* HLS \ fir_top folder: This folder contains *.cpp*,*.h*, and script files for a complex FIR filter. This is a particular type of filter called a matched filter. You are matching the incoming signal to complex I and Q Golay codes that are provided for you. In the fir.cpp file, there are four sub functions firI1, firI2, firQ1, and firQ2. These functions are real FIR filters i.e., the same that you designed in Project 1. You can use your favorite code from Project 1 in these four sub functions. In the complex FIR filter, four of these functions are used in the “fir” function. In that function, you need to connect the four FIR filters “firI1, firI2, firQ1, and firQ2” to an adder and subtractor to create the complex matched filter. This structure is demonstrated in the Simulink file.
 
-* dft.cpp -the baseline implementation for the dft function.
+* HLS \ phasedetector folder: After you design the cordic and the complex fir, you will use them to design the phase detector.
 
-* dft.h -header file
+        - fir.cpp - complex fir filter you designed previously.
 
-* dft_test.cpp -test bench
+        - cordiccart2pol.cpp - cordiccart2pol function you designed previously.
 
-* coefficientsX.h -a file containing the values of corresponding to one sine/cosine period sampled based upon the DFT points. For example, an 8 point DFT has 8 samples across both the sine and cosine function evenly spaced across one period. This is equivalent to dividing one rotation in the complex plane equally by the number of points in the DFT.
+        - phasedetector.cpp - Top level skeleton for the phase detector. You use fir.cpp and cordiccart2pol.cpp to design the phasedetector function.
 
-* out.gold.dat -"Golden” output. The testbench (dft_test.cpp) generates a sample input and calls the function dft in dft.cpp with that sample input. This output of the function is compared to the expected output. This will indicate PASS or FAIL. If it fails, then the code iFolder Demo: dft.bit | dft.tcl | project3_host.ipynbn dft is incorrect. There are four different versions of depending on the DFT size and way in which the DFT coefficients were generated.
+        - phasedetector_test - test bench
 
-* script.tcl and directives.tcl file to create the project
+        - phasedetector.h - header file
 
-Demo folder contains three files:
+        - script.tcl - Use this to create your project
 
-* project3_host.ipynb - this file has your demo instructions. It provides two examples for streaming and using interrupts. You should use the examples to create your host program.
+* Simulink:
+        
+        - Project2_model.slx: Simulink model file. You do not have to edit or do anything with this file though it could be useful for understanding the overall application better.
 
-* fact_intrpt.bit - this is used for an example in your demo instructions
+* Demo Folder:Demo folder for Phase Detector.
 
-* fact_intrpt.tcl - this is used for an example in your demo instructions
+        - host.ipynb - Jupyter notebook host file
 
+        - input_i.dat - input I signal
 
-3.Project Goal
---------------
+        - input_q.data - input Q signal
 
-You should modify the code to create a number of different architectures that perform tradeoffs between performance and area. For dft_256_precomputed and dft_1024_precomputed designs, you need to use precomputed values from coefficients256.h and coefficients1024.h
+        - out_gold.dat - golden output
 
-For 256-point and 1024-point DFTs, you will create a report describing how you generated these different architectures (code restructuring, pragmas utilized, etc.). For each architecture you should provide its results including the resource utilization (BRAMs, DSP48, LUT, FF), and performance in terms of throughput (number of DFT operations/second), latency, clock cycles, clock frequency (which is fixed to 10 ns). You can do most of the design space exploration on the 256 point DFT. You should pick your “best” 256 architecture and synthesize that as a 1024 DFT.
+3) Tasks
+-------
+In this project, you will build a phase detector to process the given a complex signal (I and Q or real and imaginary parts) demonstrated in the figure below.
 
-The 8 and 32 point folders are provided for your convenience. If you would like, you can do some of your initial design space optimization on these smaller architectures. But it is not necessary to use these at all.
+.. image:: https://github.com/KastnerRG/pp4fpgas/raw/master/labs/images/project2_1.png
 
-The key in this project is to understand the tradeoffs between loop optimizations (unrolling and pipelining) and data partitioning. Therefore you should focus on these optimizations.
+The final goal is to implement this phase detector. To achieve this goal, you will need to finish the following tasks:
 
-4.Optimization guidelines
--------------------------
+1. Implement the complex matched filter and verify it with the given testbench. This matched filter consists of four FIR filter modules which are similar to the ones in your Project 1. For the purpose of debugging, if you plot the outputs of this step, you should expect the waveforms as shown in the figure below. Or more simply just make sure that that testbench passes.
 
-* You should use a clock period of 10 ns.
+.. image:: https://github.com/KastnerRG/pp4fpgas/raw/master/labs/images/project2_3.png
 
-* The output of your architecture must closely match the golden output. Be sure to generate a working function before performing any optimizations. If the result does not match exactly, but is close, please explain why in the report. You should use float for all data types. You do not need to perform bitwidth optimization of this project.
+2. Connect the complex matched filter and CORDIC modules to implement the receiver. Verify this overall design with the given testbench. For the purpose of debugging, if you plot the outputs of this step,you should expect the waveforms as shown in the figure below.
 
-* You may want to start implementing DFT by using HLS math functions for cos() and sin(). Then you can optimize your code based on this baseline code.
-
-* There are many different ways to generate the DFT coefficients including using HLS math functions. These can be implemented as constants when the DFT size is fixed. We have given you the coefficients for both 256 (in coefficients256.h) and 1024 (in coefficients1024.h). They each have two constant arrays, sin_table and cos_table. You can use these coefficient arrays directly as memories in your architectures. You are also free to create your own arrays using a different structure (e.g., 2D array, reordering of elements in the given 1D arrays, etc.). Or you could dynamically generate the coefficients.
-
-* There is significant amount of parallelism that can be exploited by (partially) unrolling the for loops. Pipelining these (partially) unrolled for loops should lead to higher throughputs.
-
-* There are more efficient methods for performing the DFT that exploit the symmetries of the Fourier constants, e.g., the fast Fourier transform (FFT). **Do not use these symmetries.** In other words, treat this like a matrix-vector multiply with unknown matrix values. Don’t worry, we will implement FFT architectures soon enough that will fully take advantage of these symmetries.
-
-* You do not need to report your optimizations for your 8 point and 32 point DFT; these folders are provided for your convenience. Since these will very likely synthesize much faster than larger point DFT functions, it may be useful to use these to debug your code or in your initial design space exploration.
-
-* Your report must explicitly state how you calculated the throughput results. Note that this is often not simply a function of the latency and the clock period, and involves using the initiation interval.
-
-5.Questions
------------
-
-* **Question1:** What changes would this code require if you were to use a custom CORDIC similar to what you designed for Project 2? Compared to a baseline code with HLS math functions for cos() and sin(), would changing the accuracy of your CORDIC core make the DFT hardware resource usage change? How would it affect the performance? Note that you do not need to implement the CORDIC in your code, we are just asking you to discuss potential tradeoffs that would be possible if you used a CORDIC that you designed instead of the one from Xilinx.
-
-* **Question2:** Rewrite the code to eliminate these math function calls (i.e. cos() and sin()) by utilizing a table lookup. How does this change the throughput and area? What happens to the table lookup when you change the size of your DFT?
-
-* **Question3:** Modify the DFT function interface so that the input and outputs are stored in separate arrays. How does this affect the optimizations that you can perform? How does it change the performance? What about the area results? Modify your testbench to accommodate this change to DFT interface.**You should use this modified interface for the remaining questions.**
-
-* **Question4:** Study the effects of loop unrolling and array partitioning on the performance and area. What is the relationship between array partitioning and loop unrolling? Does it help to perform one without the other? Plot the performance in terms of number of matrix vector multiply operations per second (throughput) versus the unroll and array partitioning factor. Plot the same trend for area (showing LUTs, FFs, DSP blocks, BRAMs). What is the general trend in both cases? Which design would you select? Why?
-
-* **Question5:** Please read dataflow section in the `HLS user guide <https://www.xilinx.com/support/documentation/sw_manuals/xilinx2017_4/ug902-vivado-high-level-synthesis.pdf#page=157>`_,and apply dataflow pragma to your design to improve throughput. You may need to change your code and make submodules. How much improvement can you make with it? How much does your design use resources? What about BRAM usage? Please describe your architecture with figures on your report. (Make sure to add dataflow pragma on your top function.)
-
-* **Question6:** (Best architecture) Briefly describe your "best" architecture. In what way is it the best? What optimizations did you use to obtain this result? What is tradeoff you consider for the best architecture?
-
-* **Question7:** Bonus; streaming architecture) If you create a design using hls::stream, you will get bonus points of Project 3. We do not provide any testbench for this case since this is optional. You must write your own testbench because we expect you to change the function prototype from DTYPE to hls::stream. Please briefly describe what benefit you can achieve with hls::stream and why? NOTE: To get the full bonus point, your design must pass Co-Simulation (Not C-Simulation). You can learn about hls::stream from the `HLS user guide <https://www.xilinx.com/support/documentation/sw_manuals/xilinx2017_4/ug902-vivado-high-level-synthesis.pdf#page=225>`_.
-
-6.Demo
+.. Note:: You are encouraged to modify this implementation code to gain better utilization or throughput.                                                                                              	 Remember to submit modified .cpp and .h files
+        
+4) Demo
 ------
+Again, the final task integrates the phase detector onto a PYNQ. Implement the receiver design on the board. This process is mostly similar to your second lab, but you need to modify your HLS code for streaming interface.
 
-For this demo, your will create an IP for the DFT 1024, and run it from the Jupyter notebook using DMA and interrupts. From the downloaded materials for this project, copy the Demo folder to your PYNQ board and start by going through the examples. Required files are provided to run everything before the second example. For the second example and your host program, you need to copy your DFT 1024 .bit and .tcl files to the Demo folder on your PYNQ. You have to complete the code in *project3_host.ipynb* for your host program.
+You also should see these outputs:
 
-7.Submission Procedure
+.. code-block:: c++
+
+   Thetas at the R peaks are:
+
+   0.015529
+
+   0.047509
+
+   0.079485
+
+   0.111526
+
+   0.143491
+
+   ...
+
+These are the rotated phases that have been detected by your design.
+
+5) Report
+--------
+
+Your report should answer the following questions. Make it very clear where you are answering each of these questions (e.g., make each question a header or separate section or copy/paste the questions in your report and add your answer or simply put a bold or emphasized **Question X** before your answer). Your report will be graded based on your responses. 
+
+* **Question 1:** What is the throughput of your Phase Detector?How does that relate to the individual components (FIR, CORDIC, etc.)? How can you make it better?
+
+6) Submission Procedure
 ----------------------
 
-You must also submit your code (and only your code, not other files, not HLS project files). Your code should have everything in it so that we can synthesize it directly. This means that you should use pragmas in your code, and not use the GUI to insert optimization directives. We must be able to only import your source file and directly synthesize it. If you change testbench files to answer questions, please submit them as well. You can assume that we have correctly set up the design environment (dft.cpp, dft.h, etc.). You must follow the file structure below. We use automated scripts to pull your data, so double check your file/folder names to make sure it corresponds to the instructions. Your repo must contains a folder named "project3" at the top-level. This folder must be organized as follows (similar as project1 or project2):
+You must also submit your code (and only your code, not other files). Your code should have everything in it so that we can synthesize it directly. This means that you should use pragmas in your code, and not use the GUI to insert optimization directives. We must be able to only import your *.cpp file and directly synthesize it. You can assume that we have correctly set up the design environment (cordic_test.cpp, cordic.h, etc.).
 
-**Contents:**
+You must follow the file structure below. We use automated scripts to pull your data, so **DOUBLE CHECK** your file/folder names to make sure it corresponds to the instructions.
 
-* Report.pdf
+Your repo must contains a folder named "project2" at the top-level. This folder must be organized as follows (similar as project1):
 
-* Folder *dft256_baseline*
+* **Report.pdf**
 
-* Folder *dft256_optimized1*
+* Folder **fir_top_baseline**: fir.h | fir.cpp | script.tcl | report.rpt and .xml
 
-* Folder *dft256_optimized2*
+* Folder **phasedetector_optimized1**: phasedetector.h | phasedetector.cpp | cordiccart2pol.cpp | fir.cpp | script.tcl | <report rpt/xml>
+
+* Folder **phasedetector_optimized2**: phasedetector.h | phasedetector.cpp | cordiccart2pol.cpp | fir.cpp | script.tcl | <report rpt/xml>
 
 * ...
 
-* Folder *dft256_dataflow*
+* Folder **Demo** : host.ipynb | phasedetector.h | phasedetector.cpp | .bit | .hwh
 
-* Folder *dft256_best*
+* **Note**: change <report rpt/xml> by both the .rpt and the .xml files in the /syn/report folder.
 
-* Folder *dft1024_best*
+* **Note**: Provide the architectures that you used to answer the questions. You may optimize on individual components (FIR/CORDIC), or on the phase detector directly.
 
-* Folder *dft1024_bonus* (if you have)
+7) Grading Rubric
+----------------
 
-* Make sure each folder contains the source code (only) and the reports (rpt and xml).
+**40 points:** Correct design in simulation (passes testbenches for the entire receiver).                                                                                               (if error results are sufficiently low)
 
-* Do **not** submit DFT 8 and 32.
+**10 points:** Response to the question in your report. Points will be deducted based upon poor presentation, grammar, formatting, spelling, etc. Results should be discussed succinctly but with a enough detail to understand your architectures and tradeoffs. Figures should be well thought out and described in the text. Spelling errors are unacceptable.
 
-* Folder *Demo*: dft.bit | dft.tcl | project3_host.ipynb
+**50 points:** Correct working project on PYNQ.
+
+**Note on cheating:** Each partner member is responsible for understanding everything in the report. If you do not understand part of the report, then I consider this cheating.
+
+
  
-
-
-   
-
-

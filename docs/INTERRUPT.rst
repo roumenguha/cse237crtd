@@ -1,4 +1,4 @@
-Lab4
+Pynq: Interrupt
 ====================
 
 Interrupt Controller

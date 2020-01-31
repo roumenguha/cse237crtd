@@ -1,5 +1,5 @@
-Lab3-Part2
-===========
+Lab: Axistream Multiple DMAs
+=============================
 
 Simple streaming Example with multiple inputs
 *********************************************
