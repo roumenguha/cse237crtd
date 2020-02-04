@@ -24,7 +24,6 @@ Please follow this `link <https://pynq.readthedocs.io/en/latest/getting_started/
    FFT
    PHASE_DETECTOR
    AXI_LITE
-   AXIS1
    AXIS2
    INTERRUPT
    
