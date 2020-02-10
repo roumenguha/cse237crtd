@@ -7,14 +7,14 @@ Project: Cordic
 =========================================
 
 1) Introduction
---------------
+-----------------
 
 The goal of this project is to design a  a COordinate Rotation DIgital Computer (CORDIC). 
 
 You are tasked with building one version of the CORDIC from scratch. This will likely take the majority of the time spent working on this project. A CORDIC is an efficient method for calculating trigonometric and hyperbolic functions. CORDIC can do a lot of different functions; we will use it to convert Cartesian coordinates (x, y) to the polar coordinates (r, theta).
 
 2) Materials
------------
+--------------
 
 You can download the project files here:
 
@@ -48,7 +48,7 @@ The provided zip file has a number of subfolders and files corresponding to the 
         - Cordic.ipynb - Jupyter notebook host file
 
 3) Tasks
--------
+---------
 1. Implement the CORDIC HLS code and verify it with the given testbench. Note that the testbench may not cover all cases; in fact, it may be poor. You are encouraged to create a more extensive testbench to ensure that your code is correct.
 
 2. The ultimate goal of the CORDIC is to use only simple operations, i.e., add and shift. You should not be using divide, multiply, etc. in your CORDIC core. First design your code using float. Once you have a functionally correct CORDIC, then change data types to fixed point types and this should change your multiplications into shifts and adds. You should verify that this is indeed happening.
@@ -58,11 +58,11 @@ The provided zip file has a number of subfolders and files corresponding to the 
 .. Note:: You are encouraged to modify this implementation code to gain better utilization or throughput.                                                                                              	 Remember to submit modified .cpp and .h files
         
 4) Demo
-------
+---------
 Again, the final task integrates the Cordic onto a PYNQ.Use the memory mapped IO lab tutorial and run the given notebook. The output you obtain from HLS IP is compared with a python implementation of the same.
 
 5) Report
---------
+----------
 
 Your report should answer the following questions. Make it very clear where you are answering each of these questions (e.g., make each question a header or separate section or copy/paste the questions in your report and add your answer or simply put a bold or emphasized **Question X** before your answer). Your report will be graded based on your responses. 
 
@@ -79,9 +79,9 @@ Your report should answer the following questions. Make it very clear where you 
 
 
 6) Submission Procedure
-----------------------
+-------------------------
 
-You must also submit your code (and only your code, not other files). Your code should have everything in it so that we can synthesize it directly. This means that you should use pragmas in your code, and not use the GUI to insert optimization directives. We must be able to only import your *.cpp file and directly synthesize it. You can assume that we have correctly set up the design environment (cordic_test.cpp, cordic.h, etc.).
+You must also submit your code (and only your code, not other files). Your code should have everything in it so that we can synthesize it directly. This means that you should use pragmas in your code, and not use the GUI to insert optimization directives. We must be able to only import your \*.cpp file and directly synthesize it. You can assume that we have correctly set up the design environment (cordic_test.cpp, cordic.h, etc.)
 
 You must follow the file structure below. We use automated scripts to pull your data, so **DOUBLE CHECK** your file/folder names to make sure it corresponds to the instructions.
 
@@ -106,7 +106,7 @@ Your repo must contains a folder named "project2" at the top-level. This folder 
 * **Note**: Provide the architectures that you used to answer the questions. 
 
 7) Grading Rubric
-----------------
+-------------------
 
 **50 points:** Response to the questions in your report. Points will be deducted based upon poor presentation, grammar, formatting, spelling, etc. Results should be discussed succinctly but with a enough detail to understand your architectures and tradeoffs. Figures should be well thought out and described in the text. Spelling errors are unacceptable.
 

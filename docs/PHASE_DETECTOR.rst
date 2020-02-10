@@ -7,7 +7,7 @@ Project: Phase Detector
 =========================================
 
 1) Introduction
---------------
+-----------------
 
 The goal of this project is to design a simple phase detector. This is done by combining a complex FIR filter and a COordinate Rotation DIgital Computer (CORDIC). You build a complex FIR filter by hierarchically instantiating four “real” FIR filters similar to what you developed in the FIR filter project. In this project, you use CORDIC IP core from the previous project.
 
@@ -18,7 +18,7 @@ In the end, you will combine all of these modules into a phase detector. This is
 We provide a Simulink file that models a transmitter, channel, and receiver. You are building an equivalent receiver in HLS in this project. The Simulink file is provided for your information only. You do not have to edit or do anything with this file though it could be useful for understanding the overall application better.
 
 2) Materials
------------
+--------------
 
 You can download the project files here:
 
@@ -57,7 +57,7 @@ The provided zip file has a number of subfolders and files corresponding to the 
         - out_gold.dat - golden output
 
 3) Tasks
--------
+----------
 In this project, you will build a phase detector to process the given a complex signal (I and Q or real and imaginary parts) demonstrated in the figure below.
 
 .. image:: https://github.com/KastnerRG/pp4fpgas/raw/master/labs/images/project2_1.png
@@ -73,7 +73,7 @@ The final goal is to implement this phase detector. To achieve this goal, you wi
 .. Note:: You are encouraged to modify this implementation code to gain better utilization or throughput.                                                                                              	 Remember to submit modified .cpp and .h files
         
 4) Demo
-------
+---------
 Again, the final task integrates the phase detector onto a PYNQ. Implement the receiver design on the board. This process is mostly similar to your second lab, but you need to modify your HLS code for streaming interface.
 
 You also should see these outputs:
@@ -97,16 +97,16 @@ You also should see these outputs:
 These are the rotated phases that have been detected by your design.
 
 5) Report
---------
+-----------
 
 Your report should answer the following questions. Make it very clear where you are answering each of these questions (e.g., make each question a header or separate section or copy/paste the questions in your report and add your answer or simply put a bold or emphasized **Question X** before your answer). Your report will be graded based on your responses. 
 
 * **Question 1:** What is the throughput of your Phase Detector?How does that relate to the individual components (FIR, CORDIC, etc.)? How can you make it better?
 
 6) Submission Procedure
-----------------------
+------------------------
 
-You must also submit your code (and only your code, not other files). Your code should have everything in it so that we can synthesize it directly. This means that you should use pragmas in your code, and not use the GUI to insert optimization directives. We must be able to only import your *.cpp file and directly synthesize it. You can assume that we have correctly set up the design environment (cordic_test.cpp, cordic.h, etc.).
+You must also submit your code (and only your code, not other files). Your code should have everything in it so that we can synthesize it directly. This means that you should use pragmas in your code, and not use the GUI to insert optimization directives. We must be able to only import your \*.cpp file and directly synthesize it. You can assume that we have correctly set up the design environment (cordic_test.cpp, cordic.h, etc.).
 
 You must follow the file structure below. We use automated scripts to pull your data, so **DOUBLE CHECK** your file/folder names to make sure it corresponds to the instructions.
 
@@ -129,7 +129,7 @@ Your repo must contains a folder named "project2" at the top-level. This folder 
 * **Note**: Provide the architectures that you used to answer the questions. You may optimize on individual components (FIR/CORDIC), or on the phase detector directly.
 
 7) Grading Rubric
-----------------
+-------------------
 
 **40 points:** Correct design in simulation (passes testbenches for the entire receiver).                                                                                               (if error results are sufficiently low)
 
