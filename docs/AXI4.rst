@@ -14,7 +14,7 @@ In this section you learn how to create a project in Vivado_HLS, synthesis your 
 1.1)Download code and create a Vivado_HLS project
 #################################################
 
-Download and unzip `axi4_burst.zip. <https://github.com/KastnerRG/pp4fpgas/blob/master/labs/axi4_burst.zip>`_ Generate your project using the provided script.tcl file:
+Download and unzip `axi4_burst.zip. <https://github.com/KastnerRG/pp4fpgas/blob/master/labs/axi4_burst.zip?raw=true>`_ Generate your project using the provided script.tcl file:
 
 Linux: open a terminal, make sure your environment is set, navigate to streamMul folder, and run the following ::
 
@@ -119,7 +119,7 @@ This is how the final design should look
 2.6) Post bitstream Generation
 ##############################
 
-In sources, expand **design_1_wrapper::design_1_i::design_1::axi4_sqrt_0::design_1_axi4_sqrt_0_0::inst : axi4_sqrt**, double click on **axi4_sqrt_sqrt_s_axi_U**, and note the address for **in_r**,**out_r**,**len** as **0x10**,**0x18** and **0x20** respectively. We need this address in our host program.
+In sources, expand **design_1_wrapper::design_1_i::design_1::axi4_sqrt_0::design_1_axi4_sqrt_0_0::inst : axi4_sqrt**, double click on **axi4_sqrt_sqrt_s_axi_U** , and note the address for **in_r** , **out_r** , **len** as **0x10** , **0x18** and **0x20** respectively. We need this address in our host program.
 
 .. image :: https://github.com/KastnerRG/pp4fpgas/raw/master/labs/images/pynq26.png
 
