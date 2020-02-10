@@ -198,13 +198,13 @@ Example Figures
 
 Figure 1 shows an example graph of resource usage for 8 designs. Figure 2 shows the performance of these 8 designs in terms of throughput.
 
-.. image:: FIRArea.png
+.. image:: FIRArea.svg
     :width: 640px
     :height: 395px
 
 *Figure 1. Area results of different FIR designs. Note that these are only for reference and do not necessarily correspond exactly to results that you can/should obtain.*
 
-.. image:: FIRThroughput.png
+.. image:: FIRThroughput.svg
     :width: 640px
     :height: 395px
 
