@@ -147,28 +147,30 @@ Create a new Jupyter notebook and run the following code to test your design:
 .. code-block :: python3
 
 
-from pynq import Overlay
-from pynq import Xlnk
-import numpy as np
+	from pynq import Overlay
+	from pynq import Xlnk
+	import numpy as np
 
-ol=Overlay('axi4_lab.bit')
-sqrt_ip=ol.axi4_sqrt_0
+	ol=Overlay('axi4_lab.bit')
+	sqrt_ip=ol.axi4_sqrt_0
 
-length=40
-inpt=Xlnk().cma_array(shape=(length,),dtype=np.float32)
-outpt=Xlnk().cma_array(shape=(length,),dtype=np.float32)
-a=[i*i for i in range(length)]
-np.copyto(inpt,a)
-soft_op=np.sqrt(inpt)
+	length=40
+	inpt=Xlnk().cma_array(shape=(length,),dtype=np.float32)
+	outpt=Xlnk().cma_array(shape=(length,),dtype=np.float32)
+	a=[i*i for i in range(length)]
+	np.copyto(inpt,a)
+	soft_op=np.sqrt(inpt)
 
-sqrt_ip.write(0x20,length)
-sqrt_ip.write(0x10,inpt.physical_address)
-sqrt_ip.write(0x18,outpt.physical_address)
-sqrt_ip.write(0x00,1)
+	sqrt_ip.write(0x20,length)
+	sqrt_ip.write(0x10,inpt.physical_address)
+	sqrt_ip.write(0x18,outpt.physical_address)
+	sqrt_ip.write(0x00,1)
 
-print("Hardware Output","Software Output \n")
-for i in range(length):
-    print(outpt[i],"\t\t  ",soft_op[i])
+	print("Hardware Output","Software Output \n")
+	for i in range(length):
+	    print(outpt[i],"\t\t  ",soft_op[i])
+
+
 
 
 
