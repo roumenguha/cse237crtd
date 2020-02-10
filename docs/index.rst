@@ -25,7 +25,7 @@ Please follow this `link <https://pynq.readthedocs.io/en/latest/getting_started/
    PHASE_DETECTOR
    AXI_LITE
    AXIS2
-   
+   AXI4
 
    
 
