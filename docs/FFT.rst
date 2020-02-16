@@ -36,7 +36,7 @@ The structure of each of these folders is largely the same.
 4. Design Instructions
 ----------------------
 
-The major portion of the OFDM receiver is a 1024-point FFT. The FFT is a more efficient version of the Discrete Fourier Transform (DFT). The FFT utilizes symmetry in the DFT coefficients to provide a recursive implementation that reduces the runtime from O(N^2) to O(N log N) where N is the number of samples in the input signal.
+The FFT is a more efficient version of the Discrete Fourier Transform (DFT). The FFT utilizes symmetry in the DFT coefficients to provide a recursive implementation that reduces the runtime from O(N^2) to O(N log N) where N is the number of samples in the input signal.
 
 Your tasks for this part of the lab are:
 
